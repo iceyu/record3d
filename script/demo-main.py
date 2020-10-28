@@ -5,6 +5,8 @@ from threading import Event
 from pathlib import Path
 import argparse
 import time
+from PIL import Image 
+
 version = "0.1.2"
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -65,7 +67,7 @@ class DemoApp:
             rgb = self.session.get_rgb_frame()
             intrinsic_mat = self.get_intrinsic_mat_from_coeffs(self.session.get_intrinsic_mat())
             # You can now e.g. create point cloud by projecting the depth map using the intrinsic matrix.
-            
+          
             # Postprocess it
             are_truedepth_camera_data_being_streamed = depth.shape[0] == 640
             if are_truedepth_camera_data_being_streamed:
@@ -88,7 +90,7 @@ class DemoApp:
 
 
             if save_flag == True:
-                cv2.imwrite(str(self.record_path)+'/depth/'+'{:0>8d}'.format(save_frame_cnt)+'.pfm',depth)
+                cv2.imwrite(str(self.record_path)+'/depth/'+'{:0>8d}'.format(save_frame_cnt)+'.tiff',depth)
                 cv2.imwrite(str(self.record_path)+'/rgb/'+'{:0>8d}'.format(save_frame_cnt)+'.png',rgb)
                 np.savetxt(str(self.record_path)+'/intrinsic/'+'{:0>8d}'.format(save_frame_cnt)+'.txt', intrinsic_mat, fmt="%f",delimiter=",")
                 save_frame_cnt=save_frame_cnt+1

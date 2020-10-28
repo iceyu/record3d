@@ -13,7 +13,7 @@ def save_ply(output_path, points, rgb):
     pcd.points = o3d.utility.Vector3dVector(points)
     pcd.colors = o3d.utility.Vector3dVector(rgb)
 
-    #pcd.estimate_normals()
+
     o3d.io.write_point_cloud(output_path, pcd)
 
 def get_points_in_cam_space(img, intrinsic):
@@ -32,7 +32,7 @@ def save_pclouds(record_path,depth_path,intrinsic_path,rgb_path,ply_path):
 
     print("Saving point clouds")
 
-    depth_paths = sorted(depth_path.glob('*[0-9].pfm'))
+    depth_paths = sorted(depth_path.glob('*[0-9].tiff'))
     rgb_paths = sorted(rgb_path.glob('*[0-9].png'))
     intrinsic_paths = sorted(intrinsic_path.glob('*[0-9].txt'))
 
@@ -53,20 +53,19 @@ def save_pclouds(record_path,depth_path,intrinsic_path,rgb_path,ply_path):
 
         rgb_points = colors / 255.
 
+
         save_ply(str(ply_path)+'/'+path.stem+'.ply', points,rgb_points)
         key = cv2.waitKey(1)
         if key == 27 :
             break
 
-# ,np.tile(rgb.flatten().reshape((-1, 1)), (1, 3))
 
-
-# save_pclouds.py --path=E:/record3d/data/2020-10-27-19-37-24
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Save pcloud.')
     parser.add_argument("--path",
                     required=True,
                     help="Path to recording folder")
+
 
     args = parser.parse_args()
     record_path = Path(args.path)

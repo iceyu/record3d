@@ -4,7 +4,7 @@ from pathlib import Path
 import open3d as o3d
 import numpy as np
 import cv2
-import open3d as o3d
+
 
 version = "0.1.2"
 def save_ply(output_path, points, rgb):
